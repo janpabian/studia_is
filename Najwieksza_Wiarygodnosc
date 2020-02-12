@@ -1,0 +1,96 @@
+import numpy as np
+import matplotlib.pyplot as plt
+from numpy import array, exp, pi, sqrt
+
+def f(u, par):
+    m,s = par
+    return exp(-(u-m)**2/(2*s**2))/(sqrt(2*pi)*s)
+os_u=np.linspace(-5, 5, 300)
+os_y=f(os_u, par=[0,1])
+os_y2=f(os_u, par=[3,4])
+os_y3=f(os_u, par=[1,2])
+
+plt.plot(os_u, os_y, color='green')
+plt.plot(os_u, os_y2)
+plt.plot(os_u, os_y3, color='yellow')
+
+import numpy as np
+import matplotlib.pyplot as plt
+from numpy import array, exp, pi, sqrt
+
+
+def f(u, par):
+    m, s=par
+    return exp(-(u-m)**2/(2*s**2))/(sqrt(2*pi)*s)
+pu=array([0, 0.3, -0.2, 0.4, 0.5, -0.4])
+plt.plot(pu, np.zeros_like(pu), '*')
+os_u=np.linspace(start=pu.min(), stop=pu.max(), num=300)
+os_y=f(os_u, par=[0,1])
+
+
+plt.plot(os_u, os_y)
+
+import numpy as np
+import matplotlib.pyplot as plt
+from numpy import sqrt, pi, exp, array, log
+from scipy.optimize import fmin
+import pandas as pd
+
+pomiary=pd.read_excel('pomiary.xlsx')
+pu=array(pomiary['Zabici'])
+print(pu)
+
+def f(pu, par):
+    m, s =par
+    return  exp(-(pu-m)**2/(2*s**2))/(sqrt(2*np.pi)*s)
+os_u=np.linspace(start=pu.min()-10, stop=pu.max()+10, num=300)
+
+
+plt.plot(pu, np.zeros_like(pu), '*')
+
+def L(par):
+    global pu
+    return sum(log(f(pu, par)))
+def negL(par):
+    return -L(par)
+par_pocz=np.random.rand(2)*20
+par_max=fmin(negL, par_pocz)
+
+os_y=f(os_u, par_max)
+
+print(par_max)
+
+plt.plot(os_u, os_y)
+
+import matplotlib.pyplot as plt
+from numpy import sqrt, pi, exp, array, log
+from scipy.optimize import fmin
+import pandas as pd
+
+
+pomiary=pd.read_excel('pomiary.xlsx')
+pu=array(pomiary['Zabici'])
+print(pu)
+
+def f(pu, m):
+    return m*exp(-m*pu)
+
+os_u=np.linspace(start=pu.min()-10, stop=pu.max()+10, num=300)
+
+def L(m):
+    global pu
+    return sum(log(f(pu, m)))
+def negL(m):
+    return -L(m)
+
+m_pocz=np.random.rand(1)*10
+print(m_pocz)
+m_max=fmin(negL, m_pocz)
+print(m_max)
+
+os_y=f(os_u, m_max)
+plt.plot(pu , np.zeros_like(pu), '*')
+
+
+plt.plot(os_u, os_y)
+
