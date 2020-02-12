@@ -1,0 +1,26 @@
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.stats import norm
+import random
+from pandas import DataFrame, read_excel
+
+def K(x):
+    f=np.exp(-x**2)/np.sqrt(2*np.pi)
+    return f
+def parzen(dane,h,x):
+    N=len(dane)
+    f=0
+    for i in dane:
+        f=f+K((x[:]-i)/h)
+    f=f*(1/(N*h))
+    return f
+    
+dane=np.array([-1,3,-5,9,13])
+h=1.5
+x=np.linspace(np.min(dane)-5,np.max(dane)+10,300)
+y=parzen(dane,h,x)
+y2=parzen(dane,h,x)
+plt.plot(x,y)
+plt.plot(x,y2)
+plt.scatter(dane,np.zeros(len(dane)))
+plt.show()
